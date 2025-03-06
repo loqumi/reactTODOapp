@@ -8,8 +8,10 @@ import { CssBaseline, Container, Typography } from "@mui/material";
 const App: React.FC = () => {
     const { todos, addTodo, toggleTodo, clearCompleted, filter, setFilter } = useTodos();
 
-    const activeCount = todos.filter((todo) => !todo.completed).length;
-    const completedCount = todos.filter((todo) => todo.completed).length;
+    const { activeCount, completedCount } = useMemo(() => ({
+        activeCount: todos.filter(todo => !todo.completed).length,
+        completedCount: todos.filter(todo => todo.completed).length
+    }), [todos]);
 
     return (
         <>
