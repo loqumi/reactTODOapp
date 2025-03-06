@@ -21,19 +21,17 @@ export const useTodos = () => {
 
     const addTodo = (text: string) => {
         const newTodo = { id: Date.now(), text, completed: false };
-        setTodos([newTodo, ...todos]);
+        setTodos(prev => [newTodo, ...prev]); // Используем предыдущее состояние
     };
-
+    
     const toggleTodo = (id: number) => {
-        setTodos(
-            todos.map((todo) =>
-                todo.id === id ? { ...todo, completed: !todo.completed } : todo
-            )
-        );
+        setTodos(prev => prev.map(todo => 
+            todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        ));
     };
-
+    
     const clearCompleted = () => {
-        setTodos(todos.filter((todo) => !todo.completed));
+        setTodos(prev => prev.filter(todo => !todo.completed));
     };
 
     return { todos, addTodo, toggleTodo, clearCompleted, filter, setFilter };
