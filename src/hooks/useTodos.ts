@@ -1,22 +1,12 @@
 import { Todo } from "types/todo";
 import { useState, useEffect } from "react";
+import { TodoStorage } from "../utils/storage";
 
 export const useTodos = () => {
-    const [todos, setTodos] = useState<Todo[]>(() => {
-        const storedTodos = localStorage.getItem("todos");
-        return storedTodos ? JSON.parse(storedTodos) : [];
-    });
-    const [filter, setFilter] = useState<"All" | "Active" | "Completed">("All");
+    const [todos, setTodos] = useState<Todo[]>(() => TodoStorage.get());
 
     useEffect(() => {
-        const storedTodos = localStorage.getItem("todos");
-        if (storedTodos) {
-            setTodos(JSON.parse(storedTodos));
-        }
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem("todos", JSON.stringify(todos));
+        TodoStorage.set(todos);
     }, [todos]);
 
     const addTodo = (text: string) => {
